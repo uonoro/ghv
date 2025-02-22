@@ -1,7 +1,7 @@
 import { App } from "./App";
 import { ReactNode } from "react";
 import { Webseite } from "./pages/Webseite";
-import { TerminePage } from "./pages/TerminePage";
+import { TerminePage } from "./pages/termine/TerminePage";
 import { GalleriePage } from "./pages/GalleriePage";
 interface UIRoute {
   route: string;
