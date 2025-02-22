@@ -1,0 +1,13 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+
+  --ghv-primary-color: #4c2f26;
+  --ghv-secondary-color: #fcf8e9;
+}
+
+@font-face {
+  font-family: "GHVFont";
+  font-style: italic;
+  src: url(./assets/fonts/oldstandard-italicold-standard.woff2) format("woff2");
+}

@@ -1,0 +1,19 @@
+#root,
+body {
+  background-color: var(--ghv-secondary-color);
+  color: var(--ghv-primary-color);
+}
+.app-title {
+  font-family: GHVFont !important;
+  font-size: 2.5rem;
+  font-style: italic;
+  color: #893c03;
+}
+.p-tabmenu-nav,
+.p-tabmenu-nav a {
+  background-color: var(--ghv-primary-color);
+  color: var(--ghv-secondary-color);
+}
+.p-tabmenu .p-highlight {
+  font-weight: bold;
+}
