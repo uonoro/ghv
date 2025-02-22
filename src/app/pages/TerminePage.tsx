@@ -1,5 +1,5 @@
 import { PageTitle } from "@/components/PageTitle";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Termin } from "./Termin";
 import { Flex } from "@/components/layout/Flex";
 import { Button } from "primereact/button";
@@ -11,32 +11,44 @@ import { FormEvent } from "primereact/ts-helpers";
 export const TerminePage = () => {
   const [termine, setTermine] = useState<Termin[]>([]);
 
-  const onAddTermin = () => {
-    setTermine([...termine, {} as Termin]);
-  };
-
   return (
     <>
       <PageTitle title="Termine" />
-      <Flex style={{ width: "100%", justifyContent: "flex-end" }}>
-        <Button>Speichern</Button>
-      </Flex>
-
-      <Flex col>
-        {
-          <Flex col style={{ width: "100%", alignItems: "center" }}>
-            {termine.length === 0 && <p>Noch kein Termin vorhanden</p>}
-            <a href="javascript:;" onClick={() => onAddTermin()}>
-              Neuen Termin erstellen
-            </a>
-          </Flex>
-        }
-
-        {termine.map((termin, index) => (
-          <TerminRenderer key={index} termin={termin} />
-        ))}
-      </Flex>
+      {termine.length === 0 && <ImportTermine />}
     </>
+  );
+};
+
+/*****************************************************
+ *
+ *****************************************************/
+const ImportTermine = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <Flex col style={{ alignItems: "center" }}>
+      <Flex>
+        <h4>Keine Termine verfügbar.</h4>
+      </Flex>
+      <Flex>
+        <h5>Datei jetzt einlesen.</h5>
+      </Flex>
+      <Flex>
+        <Button onClick={() => inputRef.current?.click()}>
+          Datei aufwählen
+        </Button>
+
+        <input
+          ref={inputRef}
+          type="file"
+          id="file"
+          onChange={(event) => {
+            console.log("SUMSUM ", event);
+          }}
+          style={{ display: "none" }}
+        />
+      </Flex>
+    </Flex>
   );
 };
 
