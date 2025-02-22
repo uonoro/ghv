@@ -7,9 +7,10 @@ import { InputText } from "primereact/inputtext";
 import { Editor, EditorTextChangeEvent } from "primereact/editor";
 import { Calendar } from "primereact/calendar";
 import { FormEvent } from "primereact/ts-helpers";
+import { TerminStore, useTerminStore } from "./useTerminStore";
 
 export const TerminePage = () => {
-  const [termine, setTermine] = useState<Termin[]>([]);
+  const termine = useTerminStore((store: TerminStore) => store.termine);
 
   return (
     <>
