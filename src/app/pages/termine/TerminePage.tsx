@@ -8,6 +8,7 @@ import { Editor, EditorTextChangeEvent } from "primereact/editor";
 import { Calendar } from "primereact/calendar";
 import { FormEvent } from "primereact/ts-helpers";
 import { TerminStore, useTerminStore } from "./useTerminStore";
+import { API } from "@/app/API";
 
 export const TerminePage = () => {
   const termine = useTerminStore((store: TerminStore) => store.termine);
@@ -24,7 +25,7 @@ export const TerminePage = () => {
  *
  *****************************************************/
 const ImportTermine = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const dispatch = useTerminStore((store: TerminStore) => store.dispatch);
 
   return (
     <Flex col style={{ alignItems: "center" }}>
@@ -35,19 +36,9 @@ const ImportTermine = () => {
         <h5>Datei jetzt einlesen.</h5>
       </Flex>
       <Flex>
-        <Button onClick={() => inputRef.current?.click()}>
+        <Button onClick={() => API.call("FILE.readFile", "")}>
           Datei aufwählen
         </Button>
-
-        <input
-          ref={inputRef}
-          type="file"
-          id="file"
-          onChange={(event) => {
-            console.log("SUMSUM ", event);
-          }}
-          style={{ display: "none" }}
-        />
       </Flex>
     </Flex>
   );

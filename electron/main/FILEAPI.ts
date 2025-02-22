@@ -1,10 +1,12 @@
 import { error } from "node:console";
+import { selectFile } from "./FileManager";
 
 export interface IFileApi {
   [key: string]: Function;
 }
 export const FileAPI = {
   readFile: async () => {
+    selectFile();
     console.log("SUMSUM FILE read");
     return new Promise((result, error) => {
       result("GOT IT ");

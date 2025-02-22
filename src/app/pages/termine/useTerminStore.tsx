@@ -6,6 +6,7 @@ export interface TerminStore {
   termine: Termin[];
   filepath?: string;
   transferType: TransferType;
+  dispatch: (action: TerminActionType) => void;
 }
 
 export const useTerminStore = create<TerminStore>((set) => ({

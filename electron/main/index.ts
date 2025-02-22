@@ -127,7 +127,7 @@ ipcMain.handle("open-win", (_, arg) => {
 });
 
 interface APIExposure {
-  callPath: string;
+  callPath: "DB" | "FILE";
   data: any;
 }
 ipcMain.handle("API", async (event, data: APIExposure) => {
