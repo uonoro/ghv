@@ -33,3 +33,6 @@ yarn.lock
 /playwright/.cache/
 /webseite/
 /build/
+
+out/
+GHVerein-linux-x64/
