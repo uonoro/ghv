@@ -3,7 +3,13 @@
   font-size: 16px;
 
   --ghv-primary-color: #4c2f26;
+
+  --ghv-primary-color-light: #4c2f2644;
+
   --ghv-secondary-color: #fcf8e9;
+
+  --ghv-box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
 @font-face {

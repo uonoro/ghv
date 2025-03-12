@@ -35,37 +35,49 @@ export class Termin implements ITermin {
 
   static getLabel = (field: string) => {
     switch (field) {
+      case "key":
+        return "ID:";
       case "name":
-        return "Termin Name";
+        return "Name:";
       case "content":
-        return "Termin Beschreibung";
+        return "Beschreibung";
+      case "eventDate":
+        return "Datum:";
+      case "eventTime":
+        return "Uhrzeit:";
       case "eventDateTime":
-        return "Datum/Uhrzeit";
+        return "Datum/Uhrzeit:";
       case "createdBy":
-        return "erstellt von";
+        return "erstellt von:";
+      case "createdAt":
+        return "erstellt am:";
     }
   };
 
   /**
-   *
+   * convert from HTMLElement to a valid Termin instance
    * @param terminNode
    * @returns
    */
   static fromHTML = (terminNode: Element): Termin | undefined => {
     const termin = new Termin();
-    termin.key = terminNode.attribs[TerminIds.TERMIN_ID];
-    termin.createdAt = terminNode.attribs[TerminIds.TERMIN_CREATED_AT];
-    termin.createdBy = terminNode.attribs[TerminIds.TERMIN_CREATED_BY];
+    try {
+      termin.key = terminNode.attribs[TerminIds.TERMIN_ID];
+      termin.createdAt = terminNode.attribs[TerminIds.TERMIN_CREATED_AT];
+      termin.createdBy = terminNode.attribs[TerminIds.TERMIN_CREATED_BY];
 
-    termin.name = getNodeContent(TerminIds.TERMIN_NAME_ID, terminNode);
-    termin.content = getNodeContent(TerminIds.TERMIN_CONTENT_ID, terminNode);
-    termin.eventDate = getNodeContent(TerminIds.TERMIN_DATE, terminNode);
-    termin.eventTime = getNodeContent(TerminIds.TERMIN_TIME, terminNode);
-
-    console.log("SUMSUM terminNode ", termin);
+      termin.name = getNodeContent(TerminIds.TERMIN_NAME_ID, terminNode);
+      termin.content = getNodeContent(TerminIds.TERMIN_CONTENT_ID, terminNode);
+      termin.eventDate = getNodeContent(TerminIds.TERMIN_DATE, terminNode);
+      termin.eventTime = getNodeContent(TerminIds.TERMIN_TIME, terminNode);
+    } catch (error) {
+      console.log("Error parsing TerminNode ", terminNode);
+      return undefined;
+    }
 
     return termin;
   };
+
   /**
    *
    * @param termin
