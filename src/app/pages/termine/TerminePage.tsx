@@ -7,8 +7,9 @@ import { InputText } from "primereact/inputtext";
 import { Editor, EditorTextChangeEvent } from "primereact/editor";
 import { Calendar } from "primereact/calendar";
 import { FormEvent } from "primereact/ts-helpers";
-import { TerminStore, useTerminStore } from "./useTerminStore";
+import { TerminActions, TerminStore, useTerminStore } from "./useTerminStore";
 import { API } from "@/app/API";
+import { ReadFileResponse } from "electron/main/FILEAPI";
 
 export const TerminePage = () => {
   const termine = useTerminStore((store: TerminStore) => store.termine);
@@ -17,6 +18,11 @@ export const TerminePage = () => {
     <>
       <PageTitle title="Termine" />
       {termine.length === 0 && <ImportTermine />}
+      <Flex col>
+        {termine.map((termin) => (
+          <TerminRenderer termin={termin} />
+        ))}
+      </Flex>
     </>
   );
 };
@@ -27,24 +33,30 @@ export const TerminePage = () => {
 const ImportTermine = () => {
   const dispatch = useTerminStore((store: TerminStore) => store.dispatch);
 
+  const onClick = () => {
+    API.call("FILE.readFile", "").then((result: ReadFileResponse) => {
+      const { document } = result;
+      const termine = Termin.fromDocument(document);
+
+      if (termine.length > 0) {
+        dispatch({
+          type: TerminActions.SET_TERMINE,
+          payload: termine,
+        });
+      }
+    });
+  };
+
   return (
     <Flex col style={{ alignItems: "center" }}>
       <Flex>
-        <h4>Keine Termine verfügbar.</h4>
+        <h4>Termindatei noch nicht verfügbar.</h4>
       </Flex>
       <Flex>
         <h5>Datei jetzt einlesen.</h5>
       </Flex>
       <Flex>
-        <Button
-          onClick={() =>
-            API.call("FILE.readFile", "").then((result) => {
-              console.log("SUMSUM DATEI ", result);
-            })
-          }
-        >
-          Datei aufwählen
-        </Button>
+        <Button onClick={onClick}>Datei aufwählen</Button>
       </Flex>
     </Flex>
   );
@@ -67,6 +79,15 @@ const TerminRenderer = (props: TerminRendererProps) => {
       <TerminEditor termin={termin} onSave={(termin) => setTermin(termin)} />
     );
   }
+
+  const asTableRow = (prop: string, termin: Termin) => {
+    return (
+      <td>
+        <td>{Termin.getLabel(prop)}</td>
+        <td>{termin[prop] as string}</td>
+      </td>
+    );
+  };
   return (
     <Flex
       col
@@ -80,11 +101,16 @@ const TerminRenderer = (props: TerminRendererProps) => {
         <span>Termin</span>
         <Button onClick={() => setEditing(true)} icon="pi pi-pen-to-square" />
       </Flex>
-      <Flex>
+      <table>
+        <tbody>
+          <tr></tr>
+        </tbody>
+      </table>
+      <Flex col>
         <span>{termin.name ?? NOT_AVAILABLE}</span> am
-        {termin.eventDateTime ?? NOT_AVAILABLE}
-        <span>{termin.eventDateTime ?? NOT_AVAILABLE}</span>
-        <span>{termin.description ?? NOT_AVAILABLE}</span>
+        {termin.eventDate ?? NOT_AVAILABLE}
+        <span>{termin.eventTime ?? NOT_AVAILABLE}</span>
+        <span>{termin.content ?? NOT_AVAILABLE}</span>
       </Flex>
     </Flex>
   );

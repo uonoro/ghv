@@ -14,7 +14,7 @@ module.exports = {
         iconUrl: "https://your_site/favicon.ico",
         exe: `${BUILD_NAME}.exe`,
         name: BUILD_NAME,
-        description: "Geschichtverein",
+        description: "Geschichts- und Heimatverein Wehrheim",
       },
     },
     {
@@ -23,8 +23,8 @@ module.exports = {
         options: {
           bin: BUILD_NAME,
           maintainer: "uonoro",
-          homepage: "https://you home page",
-          description: "Geschichtverein",
+          homepage: "http://www.geschichtsverein-wehrheim.de/",
+          description: "Geschichts- und Heimatverein Wehrheim",
         },
       },
     },

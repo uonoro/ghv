@@ -4,7 +4,7 @@ import { log } from "node:console";
 contextBridge.exposeInMainWorld("api", {
   invoke: (channel: string, data: unknown) => {
     let validChannels = ["API"]; // list of ipcMain.handle channels you want access in frontend to
-    console.log("SUMSUM Preload " + channel, data);
+
     if (validChannels.includes(channel)) {
       // ipcRenderer.invoke accesses ipcMain.handle channels like 'myfunc'
       // make sure to include this return statement or you won't get your Promise back

@@ -11,6 +11,6 @@ export const selectFile = (): Promise<OpenDialogReturnValue> => {
   });
 };
 
-export const readFileContent = (filePath: string) => {
+export const readFileContent = (filePath: string): Promise<string> => {
   return fs.readFile(filePath, "utf8");
 };

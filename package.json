@@ -1,5 +1,5 @@
 {
-  "name": "GHVerein",
+  "name": "gh-verein",
   "version": "2.2.0",
   "main": "./dist-electron/main/index.js",
   "description": "Geschichts- und Heimatverein Wehrheim",
@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
+    "htmlparser2": "^10.0.0",
     "lodash": "^4.17.21",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.2",

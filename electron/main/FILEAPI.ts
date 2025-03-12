@@ -1,16 +1,28 @@
-import { error } from "node:console";
 import { readFileContent, selectFile } from "./FileManager";
 import { OpenDialogReturnValue } from "electron";
+import * as htmlparser from "htmlparser2";
+import { Document } from "domhandler";
 
+export interface ReadFileResponse {
+  content: string;
+  document: Document;
+}
 export interface IFileApi {
   [key: string]: Function;
 }
 export const FileAPI = {
-  readFile: async () => {
+  readFile: async (): Promise<ReadFileResponse> => {
     return new Promise((done, fail) => {
       selectFile().then((result: OpenDialogReturnValue) => {
         if (!result.canceled) {
-          readFileContent(result.filePaths[0]).then(done).catch(fail);
+          readFileContent(result.filePaths[0])
+            .then((content: string) =>
+              done({
+                content: content,
+                document: htmlparser.parseDocument(content),
+              })
+            )
+            .catch(fail);
         }
       });
     });
