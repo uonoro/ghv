@@ -1,15 +1,18 @@
 import { error } from "node:console";
-import { selectFile } from "./FileManager";
+import { readFileContent, selectFile } from "./FileManager";
+import { OpenDialogReturnValue } from "electron";
 
 export interface IFileApi {
   [key: string]: Function;
 }
 export const FileAPI = {
   readFile: async () => {
-    selectFile();
-    console.log("SUMSUM FILE read");
-    return new Promise((result, error) => {
-      result("GOT IT ");
+    return new Promise((done, fail) => {
+      selectFile().then((result: OpenDialogReturnValue) => {
+        if (!result.canceled) {
+          readFileContent(result.filePaths[0]).then(done).catch(fail);
+        }
+      });
     });
   },
   writeFile: async () => {

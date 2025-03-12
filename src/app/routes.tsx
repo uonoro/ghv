@@ -1,6 +1,6 @@
 import { App } from "./App";
 import { ReactNode } from "react";
-import { Webseite } from "./pages/Webseite";
+
 import { TerminePage } from "./pages/termine/TerminePage";
 import { GalleriePage } from "./pages/GalleriePage";
 interface UIRoute {
@@ -9,6 +9,7 @@ interface UIRoute {
   icon: string;
   element: ReactNode;
 }
+
 export const routes: UIRoute[] = [
   {
     route: "/",

@@ -6,14 +6,14 @@ import "primeicons/primeicons.css";
 
 import "./index.css";
 
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router";
 import { routes } from "./app/routes";
 import { Layout } from "./app/Layout";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <PrimeReactProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route element={<Layout />}>
             {routes.map((route) => (
@@ -25,7 +25,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
             ))}
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </PrimeReactProvider>
   </React.StrictMode>
 );

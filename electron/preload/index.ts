@@ -9,6 +9,8 @@ contextBridge.exposeInMainWorld("api", {
       // ipcRenderer.invoke accesses ipcMain.handle channels like 'myfunc'
       // make sure to include this return statement or you won't get your Promise back
       return ipcRenderer.invoke(channel, data);
+    } else {
+      console.log("Invalid channel ");
     }
   },
 });

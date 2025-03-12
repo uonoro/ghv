@@ -36,7 +36,13 @@ const ImportTermine = () => {
         <h5>Datei jetzt einlesen.</h5>
       </Flex>
       <Flex>
-        <Button onClick={() => API.call("FILE.readFile", "")}>
+        <Button
+          onClick={() =>
+            API.call("FILE.readFile", "").then((result) => {
+              console.log("SUMSUM DATEI ", result);
+            })
+          }
+        >
           Datei aufwählen
         </Button>
       </Flex>
