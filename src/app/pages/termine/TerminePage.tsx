@@ -5,13 +5,15 @@ import { Flex } from "@/components/layout/Flex";
 import { TerminActions, TerminStore, useTerminStore } from "./useTerminStore";
 import { TerminRenderer } from "./TerminRenderer";
 import { ImportModal } from "@/components/ImportModal";
-import { useState } from "react";
 import { Entities } from "./constants";
 import { ReadFileResponse } from "electron/main/FILEAPI";
 import { Termin } from "./Termin";
 
 export const TerminePage = () => {
   const termine = useTerminStore((store: TerminStore) => store.termine);
+  const importedFile = useTerminStore(
+    (store: TerminStore) => store.importedFile
+  );
   const dispatch = useTerminStore((store: TerminStore) => store.dispatch);
 
   const onImportResult = (result: ReadFileResponse) => {
@@ -29,15 +31,65 @@ export const TerminePage = () => {
       });
     }
   };
+  const onChange = (what: "delete" | "modify", termin: Termin) => {
+    if (what === "delete") {
+      const neue_termine = termine.filter((t) =>
+        t.key.localeCompare(termin.key)
+      );
+      console.log("SUMSUM NEU", neue_termine);
+
+      dispatch({
+        type: TerminActions.SET_TERMINE,
+        payload: neue_termine,
+      });
+    }
+  };
+
   return (
     <>
       <PageTitle title="Termine" />
-      <ImportModal entity={Entities.TERMINE} onImportResult={onImportResult} />
-      <Flex col>
-        {termine.map((termin) => (
-          <TerminRenderer key={termin.key} termin={termin} />
-        ))}
+      {importedFile === undefined && (
+        <ImportModal
+          entity={Entities.TERMINE}
+          onImportResult={onImportResult}
+        />
+      )}
+      <Flex col style={{ alignItems: "center" }}>
+        {termine.length > 0 &&
+          termine.map((termin) => (
+            <TerminRenderer
+              key={termin.key}
+              termin={termin}
+              onChange={onChange}
+            />
+          ))}
+        {importedFile && termine.length === 0 && (
+          <NoEventsAvailable
+            onClick={() => {
+              dispatch({
+                type: TerminActions.SET_TERMINE,
+                payload: [new Termin()],
+              });
+            }}
+          />
+        )}
       </Flex>
     </>
+  );
+};
+
+/**
+ *
+ */
+const NoEventsAvailable = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <Flex col className={"no-file-imported"} onClick={onClick}>
+      <i
+        className="pi pi-calendar-plus"
+        style={{ fontSize: "3rem", color: "var(--blue-400)" }}
+      />
+      <p>Keine Termine verfügbar.</p>
+      <p>Hier clicken um einen neuen Termine zu erstellen.</p>
+    </Flex>
   );
 };

@@ -5,8 +5,9 @@ import { Termin } from "./Termin";
 
 interface TerminRendererProps {
   termin: Termin;
+  onChange: (what: "delete" | "modify", termin: Termin) => void;
 }
-export const TerminRenderer = ({ termin }: TerminRendererProps) => {
+export const TerminRenderer = ({ termin, onChange }: TerminRendererProps) => {
   const [editingTermin, setEditingTermin] = useState<Termin>(new Termin());
   const [editing, setEditing] = useState<boolean>(false);
 
@@ -35,6 +36,7 @@ export const TerminRenderer = ({ termin }: TerminRendererProps) => {
   };
 
   const onDelete = () => {
+    onChange("delete", termin);
     console.log("SUMSUM DELETE ");
   };
 
@@ -56,6 +58,7 @@ export const TerminRenderer = ({ termin }: TerminRendererProps) => {
         borderRadius: "4px",
         padding: "1rem",
         margin: "1rem 0",
+        width: "100%",
         boxShadow: "var(--ghv-box-shadow)",
       }}
     >
