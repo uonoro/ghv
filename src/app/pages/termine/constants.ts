@@ -25,3 +25,8 @@ export interface FTPFileImporter {
   path: string;
   fileName: string;
 }
+
+export type FileImporter =
+  | LocalFileImporter
+  | HTTPFileImporter
+  | FTPFileImporter;

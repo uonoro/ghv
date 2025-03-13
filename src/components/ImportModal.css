@@ -8,3 +8,6 @@
     transform: scale(1.01);
   }
 }
+.p-tabview-panels {
+  padding: 0;
+}

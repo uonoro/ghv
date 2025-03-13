@@ -61,9 +61,15 @@ export const TerminRenderer = ({ termin }: TerminRendererProps) => {
         }}
       >
         {!editing && (
-          <Button onClick={onStartEditing} icon="pi pi-pen-to-square" />
+          <Button
+            outlined
+            onClick={onStartEditing}
+            icon="pi pi-pen-to-square"
+          />
         )}
-        {editing && <Button onClick={onStopEditing} icon="pi pi-save" />}
+        {editing && (
+          <Button outlined onClick={onStopEditing} icon="pi pi-save" />
+        )}
       </Flex>
       <table>
         <tbody>
