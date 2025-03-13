@@ -30,6 +30,14 @@ export const TerminRenderer = ({ termin }: TerminRendererProps) => {
     setEditing(false);
   };
 
+  const onSave = () => {
+    setEditing(false);
+  };
+
+  const onDelete = () => {
+    console.log("SUMSUM DELETE ");
+  };
+
   const fields = [
     "key",
     "name",
@@ -61,14 +69,33 @@ export const TerminRenderer = ({ termin }: TerminRendererProps) => {
         }}
       >
         {!editing && (
-          <Button
-            outlined
-            onClick={onStartEditing}
-            icon="pi pi-pen-to-square"
-          />
+          <>
+            <Button
+              outlined
+              onClick={onDelete}
+              icon="pi pi-trash"
+              style={{ margin: " 0 .5rem", color: "red" }}
+              tooltip={"Termin löschen "}
+            />
+            <Button
+              outlined
+              onClick={onStartEditing}
+              icon="pi pi-pen-to-square"
+              tooltip="Termin ändern"
+            />
+          </>
         )}
         {editing && (
-          <Button outlined onClick={onStopEditing} icon="pi pi-save" />
+          <>
+            <Button
+              outlined
+              onClick={onStopEditing}
+              icon="pi pi-undo"
+              style={{ margin: " 0 .5rem", color: "gray" }}
+              tooltip={"Termin löschen "}
+            />
+            <Button outlined onClick={onSave} icon="pi pi-save" />
+          </>
         )}
       </Flex>
       <table>

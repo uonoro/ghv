@@ -97,7 +97,7 @@ export const ImportModal = ({ entity, onImportResult }: ImportModalProps) => {
         }
         visible={modalOpen}
         onHide={() => setModalOpen(false)}
-        style={{ width: "50vw" }}
+        style={{ width: "50vw", bottom: "20rem" }}
       >
         <TabView
           activeIndex={activeTab}
