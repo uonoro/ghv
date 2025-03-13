@@ -2,12 +2,15 @@
 body {
   background-color: var(--ghv-secondary-color);
   color: var(--ghv-primary-color);
+  font-size: var(--ghv-font-size);
+  margin: 0;
 }
 .app-title {
   font-family: GHVFont !important;
   font-size: 2.5rem;
   font-style: italic;
   color: #893c03;
+  margin: 0 1rem;
 }
 .p-tabmenu-nav,
 .p-tabmenu-nav a {
