@@ -7,7 +7,7 @@ import { API } from "./API";
 import { log } from "node:console";
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const get = require("lodash/get");
+const get = require("lodash-es/get");
 
 // The built directory structure
 //
