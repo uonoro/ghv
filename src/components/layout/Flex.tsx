@@ -1,9 +1,10 @@
-import { CSSProperties, PropsWithChildren } from "react";
+import { CSSProperties, MouseEventHandler, PropsWithChildren } from "react";
 
 interface FlexProps extends PropsWithChildren {
   col?: boolean;
   className?: string;
   style?: CSSProperties;
+  onClick?: MouseEventHandler;
 }
 
 export const Flex = (props: FlexProps) => {
@@ -14,7 +15,7 @@ export const Flex = (props: FlexProps) => {
     ...style,
   };
   return (
-    <div className={props.className} style={flexStyle}>
+    <div className={props.className} style={flexStyle} onClick={props.onClick}>
       {props.children}
     </div>
   );

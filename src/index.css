@@ -11,7 +11,7 @@
   --ghv-box-shadow:
     0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.19);
 
-  --ghv-transition: all 1.3s ease-in;
+  --ghv-transition: all 0.3s ease-in;
 }
 
 @font-face {
@@ -30,6 +30,7 @@
 }
 
 div {
+  transition: var(--ghv-transition);
   animation-name: fade-in;
   animation-duration: 0.3s;
 }

@@ -1,46 +1,38 @@
 import { create } from "zustand";
 import { Termin } from "./Termin";
-import { TransferType } from "./constants";
+
+import { ReadFileResponse } from "electron/main/FILEAPI";
 
 export interface TerminStore {
   termine: Termin[];
-  filepath?: string;
-  transferType: TransferType;
+  importedFile?: ReadFileResponse;
+
   dispatch: (action: TerminActionType) => void;
 }
 
 export const useTerminStore = create<TerminStore>((set) => ({
   termine: [],
-  transferType: TransferType.FILE,
-  filepath: undefined,
-
+  importedFile: undefined,
   dispatch: (action: any) =>
     set((state: TerminStore) => terminReducer(state, action)),
 }));
 
 export enum TerminActions {
   SET_FILE_PATH = "SET_FILE_PATH",
-  SET_TRANSFERTYPE = "SET_TRANSFERTYPE",
+  SET_IMPORT_RESPONSE = "SET_IMPORT_RESPONSE",
   SET_TERMINE = "SET_TERMINE",
 }
 
-export interface SetFilePathAction {
-  type: TerminActions.SET_FILE_PATH;
-  payload: string;
-}
-export interface SetTransferTypeAction {
-  type: TerminActions.SET_TRANSFERTYPE;
-  payload: TransferType;
-}
 export interface SetTermineAction {
   type: TerminActions.SET_TERMINE;
   payload: Termin[];
 }
+export interface SetImportResponseAction {
+  type: TerminActions.SET_IMPORT_RESPONSE;
+  payload?: ReadFileResponse;
+}
 
-type TerminActionType =
-  | SetFilePathAction
-  | SetTransferTypeAction
-  | SetTermineAction;
+type TerminActionType = SetTermineAction | SetImportResponseAction;
 
 const terminReducer = (store: TerminStore, action: TerminActionType) => {
   switch (action.type) {
@@ -48,6 +40,11 @@ const terminReducer = (store: TerminStore, action: TerminActionType) => {
       return {
         ...store,
         termine: action.payload,
+      };
+    case TerminActions.SET_IMPORT_RESPONSE:
+      return {
+        ...store,
+        importedFile: action.payload,
       };
     default:
       return store;

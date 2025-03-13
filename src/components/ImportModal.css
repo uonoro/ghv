@@ -1,0 +1,10 @@
+.no-file-imported {
+  padding: 2rem;
+  width: 80%;
+  box-shadow: var(--ghv-box-shadow);
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+  }
+}
