@@ -86,10 +86,12 @@ export class Termin implements ITermin {
   static toHTML = (termin: Termin): Element | undefined => {
     return undefined;
   };
-
+  static isTermin = (termin: Termin | undefined): termin is Termin => {
+    return !!termin;
+  };
   static fromDocument = (document: Document): Termin[] => {
     return DomUtils.getElementsByClassName(TerminIds.TERMIN_CLASS, document)
       .map((element: Element) => Termin.fromHTML(element))
-      .filter((termin) => !!termin);
+      .filter(this.isTermin);
   };
 }

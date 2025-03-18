@@ -1,14 +1,10 @@
 import { app, BrowserWindow, shell, ipcMain, screen } from "electron";
-import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import os from "node:os";
 import { API } from "./API";
-import { log } from "node:console";
-const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const get = require("lodash-es/get");
-
+import get from "lodash/get";
 // The built directory structure
 //
 // ├─┬ dist-electron
@@ -133,7 +129,7 @@ interface APIExposure {
 }
 ipcMain.handle("API", async (event, data: APIExposure) => {
   const apiFunc = get(API, data.callPath);
-  if (apiFunc) {
+  if (typeof apiFunc === "function") {
     return apiFunc(data.data);
   }
   return new Promise((result, error) => {

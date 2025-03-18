@@ -1,9 +1,22 @@
-#root,
-body {
+html,
+body,
+#root {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+}
+
+.content {
+  margin: 0;
+  height: 100%;
   background-color: var(--ghv-secondary-color);
   color: var(--ghv-primary-color);
   font-size: var(--ghv-font-size);
-  margin: 0;
+}
+.footer {
+  background-color: var(--ghv-secondary-color);
+  padding: 0.25rem 0.5rem;
 }
 .app-title {
   font-family: GHVFont !important;
