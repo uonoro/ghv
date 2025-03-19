@@ -5,6 +5,7 @@ import os from "node:os";
 import { API } from "./API";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import get from "lodash/get";
+import { log } from "node:console";
 // The built directory structure
 //
 // ├─┬ dist-electron
@@ -124,11 +125,12 @@ ipcMain.handle("open-win", (_, arg) => {
 });
 
 interface APIExposure {
-  callPath: "DB" | "FILE";
+  callPath: string;
   data: any;
 }
 ipcMain.handle("API", async (event, data: APIExposure) => {
-  const apiFunc = get(API, data.callPath);
+  const apiFunc = get<any, string>(API, data.callPath);
+
   if (typeof apiFunc === "function") {
     return apiFunc(data.data);
   }
