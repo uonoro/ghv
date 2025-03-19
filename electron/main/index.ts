@@ -5,7 +5,7 @@ import os from "node:os";
 import { API } from "./API";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import get from "lodash/get";
-import { log } from "node:console";
+
 // The built directory structure
 //
 // ├─┬ dist-electron

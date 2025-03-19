@@ -4,6 +4,7 @@ export const GalleriePage = () => {
   return (
     <>
       <PageTitle title={"Gallerie"} />
+      <p>Noch in Arbeit</p>
     </>
   );
 };

@@ -2,6 +2,7 @@ import { Flex } from "@/components/layout/Flex";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import { Termin } from "./Termin";
+import { getFieldEditor } from "./TerminUtil";
 
 interface TerminRendererProps {
   termin: Termin;
@@ -14,11 +15,13 @@ export const TerminRenderer = ({ termin, onChange }: TerminRendererProps) => {
   const asTableRow = (prop: string, termin: Termin, editing: boolean) => {
     return (
       <tr key={prop}>
-        <td valign="top" style={{ minWidth: "15rem" }}>
+        <td valign="top" style={{ minWidth: "15rem", verticalAlign: "center" }}>
           {Termin.getLabel(prop)}
         </td>
-        {!editing && <td>{termin[prop]}</td>}
-        {editing && null}
+        {!editing && <td style={{ width: "80%" }}>{termin[prop]}</td>}
+        {editing && (
+          <td style={{ width: "80%" }}>{getFieldEditor(prop, termin)}</td>
+        )}
       </tr>
     );
   };
@@ -101,7 +104,7 @@ export const TerminRenderer = ({ termin, onChange }: TerminRendererProps) => {
           </>
         )}
       </Flex>
-      <table>
+      <table style={{ marginTop: "3rem" }}>
         <tbody>
           {fields.map((field) => asTableRow(field, termin, editing))}
         </tbody>

@@ -5,10 +5,10 @@ import { Flex } from "@/components/layout/Flex";
 
 export const Layout = () => {
   return (
-    <Flex col style={{ height: "100%" }}>
+    <Flex col className="app-container">
       <PageHeader />
       <Navigation />
-      <div className="content" style={{ padding: "0 2rem" }}>
+      <div className="content">
         <Outlet />
       </div>
       <Flex className="footer">erstellt von: Roth-IT Beratung</Flex>

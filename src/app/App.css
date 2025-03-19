@@ -6,16 +6,19 @@ body,
   margin: 0;
   height: 100vh;
 }
-
-.content {
-  margin: 0;
-  height: 100%;
+.app-container {
   background-color: var(--ghv-secondary-color);
   color: var(--ghv-primary-color);
   font-size: var(--ghv-font-size);
+  height: 100%;
+}
+.content {
+  margin: 0;
+  padding: 0 2rem;
+  height: 100%;
 }
 .footer {
-  background-color: var(--ghv-secondary-color);
+  border-top: 1px solid lightgray;
   padding: 0.25rem 0.5rem;
 }
 .app-title {
