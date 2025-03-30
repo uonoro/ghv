@@ -15,6 +15,7 @@ import {
   ChangeEventHandler,
   MouseEvent,
   PropsWithChildren,
+  useEffect,
   useState,
 } from "react";
 import { Flex } from "./layout/Flex";
@@ -126,7 +127,13 @@ const ImportLocalFile = ({
   onChange: (importer: LocalFileImporter) => void;
 }) => {
   const { importer, onChangeHandler, setImporter } =
-    useImporter<LocalFileImporter>();
+    useImporter<LocalFileImporter>(TransferType.FILE);
+
+  useEffect(() => {
+    if (importer) {
+      onChange(importer);
+    }
+  }, [importer]);
 
   /**
    *

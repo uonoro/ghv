@@ -36,7 +36,7 @@ export class Termin implements ITermin {
   static getLabel = (field: string) => {
     switch (field) {
       case "key":
-        return "ID:";
+        return "Kennung:";
       case "name":
         return "Name:";
       case "content":
@@ -50,7 +50,7 @@ export class Termin implements ITermin {
       case "createdBy":
         return "erstellt von:";
       case "createdAt":
-        return "erstellt am:";
+        return "letzte Änderung:";
     }
   };
 

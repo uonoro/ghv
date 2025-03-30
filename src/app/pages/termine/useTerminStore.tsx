@@ -5,6 +5,7 @@ import { ReadFileResponse } from "electron/main/FILEAPI";
 
 export interface TerminStore {
   termine: Termin[];
+  importetFilePath: string;
   importedFile?: ReadFileResponse;
 
   dispatch: (action: TerminActionType) => void;
@@ -12,6 +13,7 @@ export interface TerminStore {
 
 export const useTerminStore = create<TerminStore>((set) => ({
   termine: [],
+  importetFilePath: "",
   importedFile: undefined,
   dispatch: (action: any) =>
     set((state: TerminStore) => terminReducer(state, action)),
@@ -27,12 +29,20 @@ export interface SetTermineAction {
   type: TerminActions.SET_TERMINE;
   payload: Termin[];
 }
+export interface SetFilePathAction {
+  type: TerminActions.SET_FILE_PATH;
+  payload: string;
+}
+
 export interface SetImportResponseAction {
   type: TerminActions.SET_IMPORT_RESPONSE;
   payload?: ReadFileResponse;
 }
 
-type TerminActionType = SetTermineAction | SetImportResponseAction;
+type TerminActionType =
+  | SetTermineAction
+  | SetImportResponseAction
+  | SetFilePathAction;
 
 const terminReducer = (store: TerminStore, action: TerminActionType) => {
   switch (action.type) {

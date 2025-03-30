@@ -1,6 +1,6 @@
 import { Flex } from "@/components/layout/Flex";
 import { Button } from "primereact/button";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Termin } from "./Termin";
 import { getFieldEditor } from "./TerminUtil";
 
@@ -12,6 +12,13 @@ export const TerminRenderer = ({ termin, onChange }: TerminRendererProps) => {
   const [editingTermin, setEditingTermin] = useState<Termin>(new Termin());
   const [editing, setEditing] = useState<boolean>(false);
 
+  const onFieldChange = (
+    field: string,
+    event: ChangeEvent | Partial<ChangeEvent>
+  ) => {
+    console.log("SUMSUM ", field, event);
+  };
+
   const asTableRow = (prop: string, termin: Termin, editing: boolean) => {
     return (
       <tr key={prop}>
@@ -20,7 +27,9 @@ export const TerminRenderer = ({ termin, onChange }: TerminRendererProps) => {
         </td>
         {!editing && <td style={{ width: "80%" }}>{termin[prop]}</td>}
         {editing && (
-          <td style={{ width: "80%" }}>{getFieldEditor(prop, termin)}</td>
+          <td style={{ width: "80%" }}>
+            {getFieldEditor(prop, termin, onFieldChange)}
+          </td>
         )}
       </tr>
     );
@@ -78,16 +87,20 @@ export const TerminRenderer = ({ termin, onChange }: TerminRendererProps) => {
           <>
             <Button
               outlined
+              type="button"
               onClick={onDelete}
               icon="pi pi-trash"
+              label="Löschen"
+              tooltipOptions={{ position: "top" }}
               style={{ margin: " 0 .5rem", color: "red" }}
-              tooltip={"Termin löschen "}
             />
             <Button
               outlined
+              type="button"
               onClick={onStartEditing}
               icon="pi pi-pen-to-square"
-              tooltip="Termin ändern"
+              label="Ändern"
+              tooltipOptions={{ position: "top" }}
             />
           </>
         )}
@@ -95,16 +108,25 @@ export const TerminRenderer = ({ termin, onChange }: TerminRendererProps) => {
           <>
             <Button
               outlined
+              type="button"
               onClick={onStopEditing}
               icon="pi pi-undo"
-              style={{ margin: " 0 .5rem", color: "gray" }}
-              tooltip={"Termin löschen "}
+              label="Abbrechen"
+              tooltipOptions={{ position: "top" }}
+              style={{ margin: " 0 .5rem" }}
             />
-            <Button outlined onClick={onSave} icon="pi pi-save" />
+            <Button
+              outlined
+              type="button"
+              onClick={onSave}
+              icon="pi pi-save"
+              label="Speichern"
+              tooltipOptions={{ position: "top" }}
+            />
           </>
         )}
       </Flex>
-      <table style={{ marginTop: "3rem" }}>
+      <table style={{ marginTop: "3rem", position: "relative" }}>
         <tbody>
           {fields.map((field) => asTableRow(field, termin, editing))}
         </tbody>
