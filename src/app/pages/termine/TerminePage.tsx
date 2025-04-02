@@ -33,11 +33,14 @@ export const TerminePage = () => {
   };
   const onChange = (what: "delete" | "modify", termin: Termin) => {
     if (what === "delete") {
-      const neue_termine = termine.filter((t) =>
-        t.key.localeCompare(termin.key)
-      );
-      console.log("SUMSUM NEU", neue_termine);
-
+      const neue_termine = termine.filter((t) => t.key !== termin.key);
+      dispatch({
+        type: TerminActions.SET_TERMINE,
+        payload: neue_termine,
+      });
+    } else {
+      const neue_termine = termine.filter((t) => t.key !== termin.key);
+      neue_termine.push(termin);
       dispatch({
         type: TerminActions.SET_TERMINE,
         payload: neue_termine,

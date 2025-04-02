@@ -1,8 +1,8 @@
 import { Flex } from "@/components/layout/Flex";
 import { Button } from "primereact/button";
-import { ChangeEvent, useState } from "react";
+import { useCallback, useState } from "react";
 import { Termin } from "./Termin";
-import { getFieldEditor } from "./TerminUtil";
+import { getFieldEditor, GHVChangeEventHandler } from "./TerminUtil";
 
 interface TerminRendererProps {
   termin: Termin;
@@ -12,34 +12,19 @@ export const TerminRenderer = ({ termin, onChange }: TerminRendererProps) => {
   const [editingTermin, setEditingTermin] = useState<Termin>(new Termin());
   const [editing, setEditing] = useState<boolean>(false);
 
-  const onFieldChange = (
-    field: string,
-    event: ChangeEvent | Partial<ChangeEvent>
-  ) => {
-    console.log("SUMSUM ", field, event);
-  };
+  const onFieldChange: GHVChangeEventHandler = (field, value) => {
+    console.log("SUMSUM onChange ", field, value);
 
-  const asTableRow = (prop: string, termin: Termin, editing: boolean) => {
-    return (
-      <tr key={prop}>
-        <td valign="top" style={{ minWidth: "15rem", verticalAlign: "center" }}>
-          {Termin.getLabel(prop)}
-        </td>
-        {!editing && <td style={{ width: "80%" }}>{termin[prop]}</td>}
-        {editing && (
-          <td style={{ width: "80%" }}>
-            {getFieldEditor(prop, termin, onFieldChange)}
-          </td>
-        )}
-      </tr>
-    );
+    setEditingTermin({ ...editingTermin, [field]: value });
   };
 
   const onStartEditing = () => {
-    setEditingTermin(termin);
+    setEditingTermin({ ...termin });
     setEditing(true);
   };
   const onStopEditing = () => {
+    setEditingTermin({ ...termin });
+    onChange("modify", editingTermin);
     setEditing(false);
   };
 
@@ -61,6 +46,36 @@ export const TerminRenderer = ({ termin, onChange }: TerminRendererProps) => {
     "createdBy",
     "createdAt",
   ];
+
+  const asTableRow = useCallback(
+    (
+      field: string,
+      termin: Termin,
+      editing: boolean,
+      onFieldChange: GHVChangeEventHandler
+    ) => {
+      return (
+        <tr key={field}>
+          <td
+            valign="top"
+            style={{ minWidth: "15rem", verticalAlign: "center" }}
+          >
+            {Termin.getLabel(field)}
+          </td>
+          {!editing && (
+            <td style={{ width: "80%" }}>{termin.getValue(field)}</td>
+          )}
+          {editing && (
+            <td style={{ width: "80%" }}>
+              {getFieldEditor(field, termin.getValue(field), onFieldChange)}
+            </td>
+          )}
+        </tr>
+      );
+    },
+    [termin]
+  );
+
   return (
     <Flex
       col
@@ -128,7 +143,14 @@ export const TerminRenderer = ({ termin, onChange }: TerminRendererProps) => {
       </Flex>
       <table style={{ marginTop: "3rem", position: "relative" }}>
         <tbody>
-          {fields.map((field) => asTableRow(field, termin, editing))}
+          {fields.map((field) =>
+            asTableRow(
+              field,
+              editing ? editingTermin : termin,
+              editing,
+              onFieldChange
+            )
+          )}
         </tbody>
       </table>
     </Flex>

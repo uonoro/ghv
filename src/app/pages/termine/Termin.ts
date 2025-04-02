@@ -5,10 +5,11 @@ export interface ITermin {
   key: string;
   name: string;
   content: string;
-  eventDate: string;
-  eventTime: string;
+  eventDate?: string;
+  eventTime?: string;
   createdAt: string;
   createdBy: string;
+  _isModified: boolean;
 }
 
 enum TerminIds {
@@ -24,14 +25,15 @@ enum TerminIds {
 }
 
 export class Termin implements ITermin {
-  [key: string]: string | undefined;
+  [key: string]: boolean | string | undefined | Function;
   key: string = "";
   name: string = "";
   content: string = "";
-  eventDate: string = "";
-  eventTime: string = "";
+  eventDate?: string = undefined;
+  eventTime?: string = undefined;
   createdAt: string = "";
   createdBy: string = "";
+  _isModified: boolean = false;
 
   static getLabel = (field: string) => {
     switch (field) {
@@ -53,7 +55,42 @@ export class Termin implements ITermin {
         return "letzte Änderung:";
     }
   };
-
+  setValue = (field: string, value: string) => {
+    switch (field) {
+      case "key":
+      case "name":
+      case "content":
+      case "eventDate":
+      case "eventTime":
+      case "eventDateTime":
+      case "createdBy":
+      case "createdAt": {
+        this[field] = value;
+        this["createdAt"] = new Date().toLocaleString();
+        this._isModified = true;
+      }
+      default: {
+        console.warn("Field not found", field);
+      }
+    }
+  };
+  getValue = (field: string): string => {
+    switch (field) {
+      case "key":
+      case "name":
+      case "content":
+      case "eventDate":
+      case "eventTime":
+      case "eventDateTime":
+      case "createdBy":
+      case "createdAt":
+        return this[field] as string;
+      default: {
+        console.warn("Field not found", field);
+      }
+    }
+    return "";
+  };
   /**
    * convert from HTMLElement to a valid Termin instance
    * @param terminNode
