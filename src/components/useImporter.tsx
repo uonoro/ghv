@@ -1,4 +1,4 @@
-import { FileImporter, TransferType } from "@/app/pages/termine/constants";
+import { TransferType } from "@/app/pages/termine/constants";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export const useImporter = <T,>(type: TransferType) => {

@@ -1,8 +1,7 @@
+import { API } from "@/app/API";
 import {
   Entities,
   FileImporter,
-  FTPFileImporter,
-  HTTPFileImporter,
   LocalFileImporter,
   TransferType,
 } from "@/app/pages/termine/constants";
@@ -10,24 +9,14 @@ import {
   TerminStore,
   useTerminStore,
 } from "@/app/pages/termine/useTerminStore";
-import { Dialog } from "primereact/dialog";
-import {
-  ChangeEventHandler,
-  MouseEvent,
-  PropsWithChildren,
-  useEffect,
-  useState,
-} from "react";
-import { Flex } from "./layout/Flex";
-import "./ImportModal.css";
-import { Button } from "primereact/button";
-import { TabView, TabPanel } from "primereact/tabview";
-import { InputText } from "primereact/inputtext";
-import { Table } from "./Table";
-import { useImporter } from "./useImporter";
-import { API } from "@/app/API";
-import { OpenDialogReturnValue } from "electron/renderer";
 import { ReadFileResponse } from "electron/main/FILEAPI";
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { TabPanel, TabView } from "primereact/tabview";
+import { useState } from "react";
+import { ImportLocalFile } from "./importer/LocalFileImporter";
+import "./ImportModal.css";
+import { Flex } from "./layout/Flex";
 
 interface ImportModalProps {
   entity: Entities;
@@ -118,69 +107,6 @@ export const ImportModal = ({ entity, onImportResult }: ImportModalProps) => {
         </TabView>
       </Dialog>
     </>
-  );
-};
-
-const ImportLocalFile = ({
-  onChange,
-}: {
-  onChange: (importer: LocalFileImporter) => void;
-}) => {
-  const { importer, onChangeHandler, setImporter } =
-    useImporter<LocalFileImporter>(TransferType.FILE);
-
-  useEffect(() => {
-    if (importer) {
-      onChange(importer);
-    }
-  }, [importer]);
-
-  /**
-   *
-   * @param event
-   */
-  const onClick = (event: MouseEvent) => {
-    API.call("FILE.selectFile", "").then((result: OpenDialogReturnValue) => {
-      if (result.canceled) return;
-
-      const importer = {
-        path: result.filePaths[0],
-      };
-      setImporter(importer as LocalFileImporter);
-      onChange(importer as LocalFileImporter);
-    });
-  };
-  const cellStyle = {
-    padding: ".5rem 0",
-  };
-  return (
-    <div>
-      <p style={{ margin: "1rem 0" }}>
-        Importieren der Termin-Seite von der localen Festplatte
-      </p>
-      <Table>
-        <tr>
-          <td style={cellStyle}>Pfad:</td>
-          <td style={cellStyle}>
-            <Flex style={{ position: "relative" }}>
-              <InputText
-                data-id={"path"}
-                style={{ width: "100%" }}
-                defaultValue={importer.path}
-                onChange={onChangeHandler}
-              />
-              <Button
-                style={{ border: "none", boxShadow: "none" }}
-                onClick={onClick}
-                text
-                icon="pi pi-folder-open"
-              />
-            </Flex>
-          </td>
-        </tr>
-      </Table>
-      <p />
-    </div>
   );
 };
 
